@@ -5,8 +5,6 @@ import time
 from urllib.parse import parse_qs, unquote
 import requests
 from datetime import datetime
-
-
 def print_(word):
     now = datetime.now().isoformat(" ").split(".")[0]
     print(f"[{now}] {word}")
@@ -30,7 +28,7 @@ def make_request(method, url, headers, json=None, data=None):
                 return None
             retry_count += 1
         elif response.status_code >= 400:
-            print_(f"Status Code: {response.status_code} | Request Failed")
+            print_(f"Status Code: {response.status_code} | {response.text}")
             return None
         elif response.status_code >= 200:
             return response.json()
@@ -38,10 +36,9 @@ def make_request(method, url, headers, json=None, data=None):
 class Birdx():
     def __init__(self):
         self.headers = {
-            "accept": "*/*",
+            "accept": "application/json, text/plain, */*",
             "accept-language": "en-US,en;q=0.9",
             # "telegramauth": f"tma {token}",
-            "content-type": "application/json",
             "priority": "u=1, i",
             "sec-ch-ua": '"Not)A;Brand";v="99", "Microsoft Edge";v="127", "Chromium";v="127", "Microsoft Edge WebView2";v="127"',
             "sec-ch-ua-mobile": "?0",
@@ -215,6 +212,49 @@ class Birdx():
         headers['telegramauth'] = f"tma {query}"
         try:
             response = make_request('get', url, headers)
+            return response
+        except requests.RequestException as e:
+            print(f"Failed to fetch user data for token. Error: {e}")
+            return None
+    
+    def mint_status(self, query):
+        url = 'https://worm.birds.dog/worms/mint-status'
+        headers = self.headers
+        headers['authorization'] = f"tma {query}"
+        try:
+            response = make_request('get', url, headers)
+            if response is not None:
+                data = response.get('data',{})
+                nextMintTime = data.get('nextMintTime')
+                status = data.get('status','')
+                print_(f"Status Mint Worm : {status}")
+                if status == "MINT_OPEN":
+                    data_mint = self.mint_worm(query)
+                    if data_mint is not None:
+                        minted = data_mint.get('minted',{})
+                        message = data_mint.get('message','')
+                        if message == '':
+                            print_(f"Data Worm : Type {minted.get('type','')} | reward {minted.get('reward',0)}")
+                        else:
+                            print_(f"Mint Worm : {message}")
+
+                else:
+                    if nextMintTime is not None:
+                        dt_object = datetime.fromisoformat(nextMintTime.replace("Z", "+00:00"))
+                        unix_time = int(dt_object.timestamp())
+                        remaining = unix_time - time.time()
+                        print_(f'Remaining Mint Worm : {round(remaining)} Seconds')
+            return response
+        except requests.RequestException as e:
+            print(f"Failed to fetch user data for token. Error: {e}")
+            return None
+    
+    def mint_worm(self, query):
+        url = 'https://worm.birds.dog/worms/mint'
+        headers = self.headers
+        headers['authorization'] = f"tma {query}"
+        try:
+            response = make_request('post', url, headers)
             return response
         except requests.RequestException as e:
             print(f"Failed to fetch user data for token. Error: {e}")

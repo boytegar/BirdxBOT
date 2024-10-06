@@ -42,14 +42,16 @@ def remaining_time(times):
     return f"Remaining Time Upgrade : {int(hours)} Hours {int(minutes)} Minutes {int(seconds)} Seconds"
 
 def main():
+    selector_worm = input("auto catch worm y/n : ").strip().lower()
     selector_task = input("auto clear task y/n  : ").strip().lower()
     selector_games = input("auto playing games y/n  : ").strip().lower()
+    
     clear_terminal()
     while True:
         birdx = Birdx()
         queries = load_query()
         sum = len(queries)
-        delay = int(1 * random.randint(3600, 3650))
+        delay = int(2 * random.randint(3600, 3650))
         start_time = time.time()
         for index, query in enumerate(queries, start=1):
             print_(f"========== Account {index}/{sum} ===========")
@@ -87,6 +89,10 @@ def main():
                     else:
                         print_(remaining_time((upgradedAt+upgrade_time) - now))
                 
+                if selector_worm == "y":
+                    print_('Getting Worm...')
+                    birdx.mint_status(query)
+
                 if selector_task == "y":
                     print_("Start Clear Quest")
                     birdx.clear_task(query)
@@ -94,6 +100,7 @@ def main():
                 if selector_games == "y":
                     print_("Start Playing Game")
                     birdx.join_game(query)
+                
 
             else:
                 print_('User Not Found')
