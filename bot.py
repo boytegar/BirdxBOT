@@ -51,7 +51,7 @@ def main():
         birdx = Birdx()
         queries = load_query()
         sum = len(queries)
-        delay = int(2 * random.randint(3600, 3650))
+        delay = int(2.5 * random.randint(3600, 3800))
         start_time = time.time()
         for index, query in enumerate(queries, start=1):
             print_(f"========== Account {index}/{sum} ===========")

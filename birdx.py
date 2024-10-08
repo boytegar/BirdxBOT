@@ -161,7 +161,8 @@ class Birdx():
         try:
             response = make_request('get', url, headers)
             if response is not None:
-                turn = response.get('turn')
+                data_turn = self.turn_game(query)
+                turn = data_turn.get('turn')
                 while True:
                     if turn <= 0:
                         data_claim_game = self.claim_game(query)
@@ -233,7 +234,7 @@ class Birdx():
                     if data_mint is not None:
                         minted = data_mint.get('minted',{})
                         message = data_mint.get('message','')
-                        if message == '':
+                        if message == 'SUCCESS':
                             print_(f"Data Worm : Type {minted.get('type','')} | reward {minted.get('reward',0)}")
                         else:
                             print_(f"Mint Worm : {message}")
