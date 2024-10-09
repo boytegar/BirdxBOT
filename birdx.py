@@ -22,9 +22,9 @@ def make_request(method, url, headers, json=None, data=None):
         else:
             raise ValueError("Invalid method.")
         
-        if response.status_code >= 500:
-            if retry_count >= 4:
-                print_(f"Status Code: {response.status_code} | Server Down")
+        if response.status_code >= 420:
+            if retry_count > 5:
+                print_(f"Status Code: {response.status_code} | {response.text}")
                 return None
             retry_count += 1
         elif response.status_code >= 400:
@@ -128,10 +128,13 @@ class Birdx():
         try:
             list = []
             response = make_request('get', url, headers)
-            for data in response:
-                task_id = data.get('taskId','')
-                list.append(task_id)
-            return list
+            if response is not None:
+                for data in response:
+                    task_id = data.get('taskId','')
+                    list.append(task_id)
+                return list
+            else:
+                return None
         except requests.RequestException as e:
             print(f"Failed to fetch user data for token. Error: {e}")
             return None
