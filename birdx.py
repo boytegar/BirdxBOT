@@ -53,7 +53,7 @@ class Birdx():
     def get_user_info(self, query):
         headers = self.headers
         headers['telegramauth'] = f"tma {query}"
-        url = "https://birdx-api.birds.dog/user"
+        url = "https://api.birds.dog/user"
         try:
             response = make_request('get', url, headers)
             return response
@@ -64,7 +64,7 @@ class Birdx():
     def get_info(self, query):
         headers = self.headers
         headers['telegramauth'] = f"tma {query}"
-        url = 'https://birdx-api2.birds.dog/minigame/incubate/info'
+        url = 'https://api.birds.dog/minigame/incubate/info'
         try:
             response = make_request('get', url, headers)
             return response
@@ -73,7 +73,7 @@ class Birdx():
             return None
     
     def upgraded(self, query):
-        url = 'https://birdx-api2.birds.dog/minigame/incubate/upgrade'
+        url = 'https://api.birds.dog/minigame/incubate/upgrade'
         headers = self.headers
         headers['telegramauth'] = f"tma {query}"
         try:
@@ -87,7 +87,7 @@ class Birdx():
             return None
     
     def confirm_upgrade(self, query):
-        url = 'https://birdx-api2.birds.dog/minigame/incubate/confirm-upgraded'
+        url = 'https://api.birds.dog/minigame/incubate/confirm-upgraded'
         headers = self.headers
         headers['telegramauth'] = f"tma {query}"
         try:
@@ -98,7 +98,7 @@ class Birdx():
             return None
     
     def clear_task(self, query):
-        url = "https://birdx-api.birds.dog/project"
+        url = "https://api.birds.dog/project"
         headers = self.headers
         headers['telegramauth'] = f"tma {query}"
         try:
@@ -122,7 +122,7 @@ class Birdx():
             return None
     
     def check_task_completion(self, query):
-        url = "https://birdx-api.birds.dog/user-join-task/"
+        url = "https://api.birds.dog/user-join-task/"
         headers = self.headers
         headers['telegramauth'] = f"tma {query}"
         try:
@@ -140,7 +140,7 @@ class Birdx():
             return None
     
     def join_task(self, query, detail):
-        url = 'https://birdx-api.birds.dog/project/join-task'
+        url = 'https://api.birds.dog/project/join-task'
         headers = self.headers
         headers['telegramauth'] = f"tma {query}"
         payload = {"taskId":detail.get('_id'),
@@ -158,7 +158,7 @@ class Birdx():
             return None
     
     def join_game(self, query):
-        url = 'https://birdx-api2.birds.dog/minigame/egg/join'
+        url = 'https://api.birds.dog/minigame/egg/join'
         headers = self.headers
         headers['telegramauth'] = f"tma {query}"
         try:
@@ -188,7 +188,7 @@ class Birdx():
             return None
     
     def turn_game(self, query):
-        url = 'https://birdx-api2.birds.dog/minigame/egg/turn'
+        url = 'https://api.birds.dog/minigame/egg/turn'
         headers = self.headers
         headers['telegramauth'] = f"tma {query}"
         try:
@@ -200,7 +200,7 @@ class Birdx():
             return None
     
     def play_game(self, query):
-        url = 'https://birdx-api2.birds.dog/minigame/egg/play'
+        url = 'https://api.birds.dog/minigame/egg/play'
         headers = self.headers
         headers['telegramauth'] = f"tma {query}"
         try:
@@ -211,7 +211,7 @@ class Birdx():
             return None
     
     def claim_game(self, query):
-        url = 'https://birdx-api2.birds.dog/minigame/egg/claim'
+        url = 'https://api.birds.dog/minigame/egg/claim'
         headers = self.headers
         headers['telegramauth'] = f"tma {query}"
         try:

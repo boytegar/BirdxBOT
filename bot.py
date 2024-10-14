@@ -68,6 +68,10 @@ def main():
                 if incubationSpent == 0:
                     birdx.upgraded(query)
                 
+                if selector_worm == "y":
+                    print_('Getting Worm...')
+                    birdx.mint_status(query)
+
                 data_info = birdx.get_info(query)
                 if data_info is not None:
                     level = data_info.get('level',0)
@@ -88,10 +92,7 @@ def main():
                                 birdx.upgraded(query)
                     else:
                         print_(remaining_time((upgradedAt+upgrade_time) - now))
-                
-                if selector_worm == "y":
-                    print_('Getting Worm...')
-                    birdx.mint_status(query)
+            
 
                 if selector_task == "y":
                     print_("Start Clear Quest")
